@@ -1,0 +1,56 @@
+#Mi primer bot de discord! 
+
+
+#Importando librerías
+import discord
+import random
+
+def gen_pass(pass_length):
+    elements = "+-/*!&$#?=@<>"
+    password = ""
+
+    for i in range(pass_length):
+        password += random.choice(elements)
+
+    return password
+
+
+# La variable intents almacena los privilegios del bot
+intents = discord.Intents.default()
+
+# Activar el privilegio de lectura de mensajes
+intents.message_content = True
+
+# Crear un bot en la variable cliente y transferirle los privilegios
+client = discord.Client(intents=intents)
+
+
+@client.event
+async def on_ready():# Este evento se activa cuando el bot se ha conectado exitosamente a Discord y está listo para interactuar.
+
+    print(f'Hemos iniciado sesión como {client.user}') 
+
+@client.event
+async def on_message(message): #Este evento se activa cada vez que se recibe un mensaje en un servidor al que el bot tiene acceso
+    if message.author == client.user:  #verificamos si el autor es el bot, si si es, no hacemos nada
+        return
+    if message.content.startswith('/hello'): #Verificamos si el autor somos nosotros, a lo que el bot responderá :) 
+        await message.channel.send("Hola, soy un bot!")
+    elif message.content.startswith('/bye'):
+        await message.channel.send(":confused:")
+    elif message.content.startswith('/pass'):
+        await message.channel.send(gen_pass(10)) #El generador de contraseñas!
+    elif message.content.startswith('/moyai'):
+        await message.channel.send(":moyai:") 
+    elif message.content.startswith('/pc'):
+        await message.channel.send("Cuando tenga un buen pc :pensive:")
+    elif message.content.startswith('/mal'):
+        await message.channel.send("Es que me va muy mal :pensive:")
+    elif message.content.startswith('/a mi'):
+        await message.channel.send("Pero porque me mata a miiiii :face_with_symbols_over_mouth:")
+    elif message.content.startswith('/m'):
+        await message.channel.send("¿miguel?")
+    
+
+
+client.run("MTExNDYwMjY1MTIxNzMxODAyMQ.G-OpJn.XESUWpKshTMsuASnG9XJjYvIFdmnJA-ALClegQ") # TOKEN --> No borrar 
